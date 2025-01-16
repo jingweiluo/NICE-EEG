@@ -160,7 +160,7 @@ class IE():
         self.nSub = nsub
 
         self.start_epoch = 0
-        self.eeg_data_path = '/home/Data/Things-EEG2/Preprocessed_data_250Hz/'
+        self.eeg_data_path = 'E:/Data/Things-EEG2Preprocessed_data_250Hz/'
         self.img_data_path = './dnn_feature/'
         self.test_center_path = './dnn_feature/'
         self.pretrain = False
@@ -268,7 +268,6 @@ class IE():
 
             for i, (eeg, img) in enumerate(self.dataloader):
 
-                eeg = Variable(eeg.cuda().type(self.Tensor))
                 # img = Variable(img.cuda().type(self.Tensor))
                 img_features = Variable(img.cuda().type(self.Tensor))
                 # label = Variable(label.cuda().type(self.LongTensor))

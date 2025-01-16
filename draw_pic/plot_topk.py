@@ -16,7 +16,7 @@ for i in range(len(y_true)):
 match = np.sum(match, axis=1)
 match_place = np.where(match == 1)[0]
 
-things_eeg_test_images_path = '/home/Data/Things-EEG2/Image_set/image_set/test_images/'
+things_eeg_test_images_path = 'E:/Data/Things-EEG2Image_set/image_set/test_images/'
 things_list = os.listdir(things_eeg_test_images_path)
 things_list.sort()
 

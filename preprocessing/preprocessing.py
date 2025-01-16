@@ -40,7 +40,7 @@ parser.add_argument('--sub', default=10, type=int)
 parser.add_argument('--n_ses', default=4, type=int)
 parser.add_argument('--sfreq', default=250, type=int)
 parser.add_argument('--mvnn_dim', default='epochs', type=str)
-parser.add_argument('--project_dir', default='/home/Data/Things-EEG2/', type=str)
+parser.add_argument('--project_dir', default='E:/Data/Things-EEG2', type=str)
 args = parser.parse_args()
 
 print('>>> EEG data preprocessing <<<')
