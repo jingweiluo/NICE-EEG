@@ -160,7 +160,7 @@ class IE():
         self.nSub = nsub
 
         self.start_epoch = 0
-        self.eeg_data_path = 'E:/Data/Things-EEG2Preprocessed_data_250Hz/'
+        self.eeg_data_path = '/data1/labram_data/Things-EEG2/Preprocessed_data_250Hz/'
         self.img_data_path = './dnn_feature/'
         self.test_center_path = './dnn_feature/'
         self.pretrain = False

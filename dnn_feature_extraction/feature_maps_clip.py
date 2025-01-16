@@ -10,7 +10,7 @@ import os
 parser = argparse.ArgumentParser()
 parser.add_argument('--dnn', default='clip', type=str)
 parser.add_argument('--pretrained', default=True, type=bool)
-parser.add_argument('--project_dir', default='E:/Data/Things-EEG2', type=str)
+parser.add_argument('--project_dir', default='/data1/labram_data/Things-EEG2/', type=str)
 args = parser.parse_args()
 
 print('>>> Apply PCA on the feature maps <<<')

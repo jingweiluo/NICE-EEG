@@ -17,7 +17,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = ','.join(map(str, gpus))
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--pretrained', default=True, type=bool)
-parser.add_argument('--project_dir', default='E:/Data/Things-EEG2Image_set', type=str)
+parser.add_argument('--project_dir', default='/data1/labram_data/Things-EEG2/Image_set', type=str)
 args = parser.parse_args()
 
 print('Extract feature maps CLIP of images for center <<<')
