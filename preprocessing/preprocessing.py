@@ -36,7 +36,7 @@ from preprocessing_utils import save_prepr
 # Input arguments
 # =============================================================================
 parser = argparse.ArgumentParser()
-parser.add_argument('--sub', default=10, type=int)
+parser.add_argument('--sub', default=1, type=int)
 parser.add_argument('--n_ses', default=4, type=int)
 parser.add_argument('--sfreq', default=250, type=int)
 parser.add_argument('--mvnn_dim', default='epochs', type=str)

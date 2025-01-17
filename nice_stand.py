@@ -193,13 +193,13 @@ class IE():
 
         train_data = np.load(self.eeg_data_path + '/sub-' + format(self.nSub, '02') + '/preprocessed_eeg_training.npy', allow_pickle=True)
         train_data = train_data['preprocessed_eeg_data']
-        train_data = np.mean(train_data, axis=1)
+        train_data = np.mean(train_data, axis=1) # 把对同一张图片的EEG信号进行了平均，shape由(16540,4,63,250)变成(16540,1,63,250)
         train_data = np.expand_dims(train_data, axis=1)
 
         test_data = np.load(self.eeg_data_path + '/sub-' + format(self.nSub, '02') + '/preprocessed_eeg_test.npy', allow_pickle=True)
         test_data = test_data['preprocessed_eeg_data']
         test_data = np.mean(test_data, axis=1)
-        test_data = np.expand_dims(test_data, axis=1)
+        test_data = np.expand_dims(test_data, axis=1) # (200,1,63,250)
 
         return train_data, train_label, test_data, test_label
 
@@ -229,8 +229,8 @@ class IE():
 
         # shuffle the training data
         train_shuffle = np.random.permutation(len(train_eeg))
-        train_eeg = train_eeg[train_shuffle]
-        train_img_feature = train_img_feature[train_shuffle]
+        train_eeg = train_eeg[train_shuffle] # (16540,1,63,250)
+        train_img_feature = train_img_feature[train_shuffle] # (16540, 768)
 
         val_eeg = torch.from_numpy(train_eeg[:740])
         val_image = torch.from_numpy(train_img_feature[:740])
@@ -285,6 +285,8 @@ class IE():
                 # normalize the features
                 eeg_features = eeg_features / eeg_features.norm(dim=1, keepdim=True)
                 img_features = img_features / img_features.norm(dim=1, keepdim=True)
+
+                print('SHAPE:', eeg_features.shape, img_features.shape)
 
                 # cosine similarity as the logits
                 logit_scale = self.logit_scale.exp()
