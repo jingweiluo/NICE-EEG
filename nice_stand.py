@@ -23,10 +23,10 @@ from torch.autograd import Variable
 from einops.layers.torch import Rearrange
 
 
-gpus = [6]
+gpus = [0,4,5,6,7]
 os.environ['CUDA_DEVICE_ORDER'] = 'PCI_BUS_ID'
 os.environ["CUDA_VISIBLE_DEVICES"] = ','.join(map(str, gpus))
-result_path = '/home/NICE/results/' 
+result_path = '/home/luojingwei/code/NICE-EEG/results/'
 model_idx = 'test0'
  
 parser = argparse.ArgumentParser(description='Experiment Stimuli Recognition test with CLIP encoder')
@@ -218,13 +218,20 @@ class IE():
 
 
     def train(self):
+        if torch.cuda.is_available():
+            print("CUDA is available. Training will be on GPU.")
+        else:
+            print("CUDA is not available. Training will be on CPU.")
         
         self.Enc_eeg.apply(weights_init_normal)
         self.Proj_eeg.apply(weights_init_normal)
         self.Proj_img.apply(weights_init_normal)
 
         train_eeg, _, test_eeg, test_label = self.get_eeg_data()
-        train_img_feature, _ = self.get_image_data() 
+        train_eeg = train_eeg.astype(np.float32)
+        test_eeg = test_eeg.astype(np.float32)
+        test_label = test_label.astype(np.int32)
+        train_img_feature, _ = self.get_image_data()
         test_center = np.load(self.test_center_path + 'center_' + self.args.dnn + '.npy', allow_pickle=True)
 
         # shuffle the training data
@@ -273,6 +280,7 @@ class IE():
                 # label = Variable(label.cuda().type(self.LongTensor))
                 labels = torch.arange(eeg.shape[0])  # used for the loss
                 labels = Variable(labels.cuda().type(self.LongTensor))
+                # eeg = Variable(eeg.cuda().type(self.Tensor)) # 使用分布式训练时，模型会自动将数据转移到GPU，此行可省略
 
                 # obtain the features
                 eeg_features = self.Enc_eeg(eeg)
@@ -286,7 +294,7 @@ class IE():
                 eeg_features = eeg_features / eeg_features.norm(dim=1, keepdim=True)
                 img_features = img_features / img_features.norm(dim=1, keepdim=True)
 
-                print('SHAPE:', eeg_features.shape, img_features.shape)
+                # print('SHAPE:', eeg_features.shape, img_features.shape)
 
                 # cosine similarity as the logits
                 logit_scale = self.logit_scale.exp()
